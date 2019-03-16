@@ -1,6 +1,6 @@
 /*
  *
- * (C) 2003-2018 Anope Team
+ * (C) 2003-2019 Anope Team
  * Contact us at team@anope.org
  *
  * Please read COPYING and README for further details.
@@ -67,7 +67,7 @@ class MyHTTPClient : public HTTPClient
 			return;
 		}
 
-		if (this->ip == this->provider->ext_ip)
+		if (std::find(this->provider->ext_ips.begin(), this->provider->ext_ips.end(), this->ip) != this->provider->ext_ips.end())
 		{
 			for (unsigned i = 0; i < this->provider->ext_headers.size(); ++i)
 			{
@@ -435,7 +435,7 @@ class HTTPD : public Module
 			}
 
 
-			p->ext_ip = ext_ip;
+			spacesepstream(ext_ip).GetTokens(p->ext_ips);
 			spacesepstream(ext_header).GetTokens(p->ext_headers);
 		}
 
